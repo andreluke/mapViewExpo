@@ -1,0 +1,1 @@
+process.env.EXPO_PUBLIC_BACKEND_URL = 'https://custom-backend.com';

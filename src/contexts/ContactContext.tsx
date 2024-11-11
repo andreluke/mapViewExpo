@@ -20,6 +20,7 @@ export const ContactProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     loadContacts();
   }, []);
+  
 
   return (
     <ContactContext.Provider value={{ contacts, loadContacts }}>

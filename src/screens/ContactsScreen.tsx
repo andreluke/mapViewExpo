@@ -5,6 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
+import { deleteContact } from '../services/contactService';
 
 type ContactsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Contacts'>;
 
@@ -27,14 +28,16 @@ export const ContactsScreen: React.FC<Props> = ({ navigation }) => {
         data={contacts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.contactCard}>
+          
           <TouchableOpacity
-              onPress={() => navigation.navigate('Location', { contact: item })} // Navega para a tela 'Location' passando o contato
+              onPress={() => navigation.navigate('Location', { contact: item })} style={styles.contactCard}// Navega para a tela 'Location' passando o contato
             >
            <Text style={styles.contactName}>{item.name}</Text>
            <Text style={styles.contactAddress}>{item.address}</Text>
+           <TouchableOpacity style={styles.removeButton} onPress={() => deleteContact(item.id)}>
+           <Ionicons name="trash" size={16} color="white" />
            </TouchableOpacity>
-          </View>
+           </TouchableOpacity>
         )}
       />
       <TouchableOpacity
@@ -63,6 +66,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
+    gap: 4
   },
   contactName: {
     fontSize: 16,
@@ -89,4 +93,20 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
   },
+  removeButton:{
+    position: 'absolute',
+    top: 14,
+    right: 14,
+    backgroundColor: '#fa0009',
+    borderRadius: 30,
+    width: 28,
+    height: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+  }
 });

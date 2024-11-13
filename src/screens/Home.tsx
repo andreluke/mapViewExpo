@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useScreenGuard } from "../hooks/useScreenGuard";
 
 type SplashScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -11,11 +12,21 @@ type SplashScreenNavigationProp = StackNavigationProp<
 
 export const Home: React.FC = () => {
   const navigation = useNavigation<SplashScreenNavigationProp>();
+  const authenticate = useScreenGuard();
+
+  const handlePress = async () => {
+    const isAuthenticated = await authenticate(); // Call biometric authentication
+
+    if (isAuthenticated) {
+      navigation.navigate("Contacts"); // Navigate to Contacts if authenticated
+    }
+  };
+
 
   return (
     <View style={style.container}>
       <Text style={style.title}>Bem-vindo ao App!</Text>
-      <TouchableOpacity style={style.button} onPress={() => navigation.navigate("Contacts")}>
+      <TouchableOpacity style={style.button} onPress={handlePress}>
         <Text style={style.buttonText}>Iniciar</Text>
       </TouchableOpacity>
     </View>
